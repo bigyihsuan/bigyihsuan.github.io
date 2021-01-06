@@ -1,3 +1,24 @@
-<p>hello world</p>
+<!DOCTYPE html>
+<html>
 
-<a href="/test/hw.html">Test Link</a>
+<body>
+    <p>hello world</p>
+
+    <a href="./test/hw.html">Test Link</a>
+
+    <p id="test">start</p>
+
+    <button onclick="count">count</button>
+
+    <script>
+        function count() {
+            for (var i = 0; i < 10; i++) {
+                document.getElementById("test").innerHTML = i;
+                await new Promise(r => setTimeout(r, 1000));
+            }
+        }
+    </script>
+
+</body>
+
+</html>
