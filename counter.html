@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+    <button onclick="addDiv()">Add Div</button>
+    <button onclick="remDiv()">Remove Div</button>
+    <p id="counter"></p>
+    <div id="base"></div>
+</body>
+
+<script>
+    function addDiv() {
+        var div = document.createElement('div');
+        div.id = 'container';
+        div.innerHTML = document.getElementById("base").childNodes.length;
+        div.className = 'border pad';
+        document.getElementById("base").appendChild(div);
+    }
+
+    function remDiv() {
+        var children = document.getElementById("base").childNodes;
+        var counter = document.getElementById("counter");
+        counter.innerHTML = children.length;
+    }
+</script>
+
+<style>
+    .border {
+        border: 1px solid grey;
+    }
+    
+    .pad {
+        padding: 15px;
+    }
+</style>
+
+</html>
