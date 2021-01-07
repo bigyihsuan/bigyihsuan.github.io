@@ -17,44 +17,40 @@
 <script>
     function addTag() {
         var div = document.createElement('div');
-        var html = `<div class="container-fluid">
-        <div class="row align-middle" style="padding:0.3em">
-            <div class="col-5">
-                <div class="input-group">
-                    <input class="form-control" type="text" />
-                    <span class="input-group-text" id="count">0</span>
-                </div>
-            </div>
-            <div class="btn-group col-1" role="group" aria-label="Tag Buttons">
-                <button type="button" class="btn btn-outline-primary" onclick="increment(this)">&#10133;</button>
-                <button type="button" class="btn btn-outline-primary" onclick="decrement(this)">&#10134;</button>
-                <button type="button" class="btn btn-dark" onclick="removeTag(this)">&#10060;</button>
-                <button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">&#11014;</button>
-                <button type="button" class="btn btn-outline-primary" onclick="moveDown(this)">&#11015;</button>
-            </div>
+        var html = `
+<div class="row align-middle border" style="padding:0.3em">
+    <div class="col-5">
+        <div class="input-group">
+            <input class="form-control" type="text" />
+            <span class="input-group-text" id="counter">0</span>
         </div>
-    </div>`;
-        div.id = "div" + document.getElementById("tags").childNodes.length;
+    </div>
+    <div class="btn-group col-1" role="group" aria-label="Tag Buttons">
+        <button type="button" class="btn btn-outline-primary" onclick="increment(this)">&#10133;</button>
+        <button type="button" class="btn btn-outline-primary" onclick="decrement(this)">&#10134;</button>
+        <button type="button" class="btn btn-dark" onclick="removeTag(this)">&#10060;</button>
+        <button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">&#11014;</button>
+        <button type="button" class="btn btn-outline-primary" onclick="moveDown(this)">&#11015;</button>
+    </div>
+</div>`;
+        div.id = document.getElementById("tags").childNodes.length;
+        div.class = "container-fluid";
         div.innerHTML = html;
-        div.className = 'border pad';
         document.getElementById("tags").appendChild(div);
-        displayCount();
     }
 
     function removeTag(ele) {
-        ele.parentElement.parentElement.parentElement.parentElement.remove();
+        ele.parentElement.parentElement.parentElement.remove();
     }
 
     function increment(ele) {
-
+        var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
+        counter.innerHTML = Number(counter.innerHTML) + 1;
     }
 
     function decrement(ele) {
-
-    }
-
-    function removeTag(ele) {
-
+        var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
+        counter.innerHTML = Number(counter.innerHTML) > 0 ? Number(counter.innerHTML) - 1 : 0;
     }
 
     function moveUp(ele) {
