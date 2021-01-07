@@ -5,23 +5,33 @@
 <body>
     <button onclick="addDiv()">Add Div</button>
     <button onclick="remDiv()">Remove Div</button>
+    <button onclick="displayCount()">Display Count</button>
     <p id="counter"></p>
+    <p id="debug"></p>
     <div id="base"></div>
 </body>
 
 <script>
     function addDiv() {
         var div = document.createElement('div');
-        div.id = 'container';
-        div.innerHTML = document.getElementById("base").childNodes.length;
+        div.id = "div" + displayCount();
+        div.innerHTML = "div" + displayCount();
         div.className = 'border pad';
         document.getElementById("base").appendChild(div);
+        displayCount();
     }
 
     function remDiv() {
+        var id = "div" + (displayCount() - 1);
+        document.getElementById("base").removeChild(document.getElementById(id));
+        displayCount();
+    }
+
+    function displayCount() {
         var children = document.getElementById("base").childNodes;
         var counter = document.getElementById("counter");
         counter.innerHTML = children.length;
+        return children.length;
     }
 </script>
 
