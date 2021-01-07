@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Blocking Counter</h1>
+    <button type="button" class="btn btn-primary" onclick="addTag()">Add New Tag</button>
+    <br />
+    <br />
+    <div id="tags"></div>
+
+
+</body>
+<script>
+    function addTag() {
+        var div = document.createElement('div');
+        var html = `<div class="container-fluid">
+        <div class="row align-middle" style="padding:0.3em">
+            <div class="col-5">
+                <div class="input-group">
+                    <input class="form-control" type="text" />
+                    <span class="input-group-text" id="count">0</span>
+                </div>
+            </div>
+            <div class="btn-group col-1" role="group" aria-label="Tag Buttons">
+                <button type="button" class="btn btn-outline-primary" onclick="increment(this)">&#10133;</button>
+                <button type="button" class="btn btn-outline-primary" onclick="decrement(this)">&#10134;</button>
+                <button type="button" class="btn btn-dark" onclick="removeTag(this)">&#10060;</button>
+                <button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">&#11014;</button>
+                <button type="button" class="btn btn-outline-primary" onclick="moveDown(this)">&#11015;</button>
+            </div>
+        </div>
+    </div>`;
+        div.id = "div" + document.getElementById("tags").childNodes.length;
+        div.innerHTML = html;
+        div.className = 'border pad';
+        document.getElementById("tags").appendChild(div);
+        displayCount();
+    }
+
+    function removeTag(ele) {
+        ele.parentElement.parentElement.parentElement.parentElement.remove();
+    }
+
+    function increment(ele) {
+
+    }
+
+    function decrement(ele) {
+
+    }
+
+    function removeTag(ele) {
+
+    }
+
+    function moveUp(ele) {
+
+    }
+
+    function moveDown(ele) {
+
+    }
+</script>
+
+<style>
+
+</style>
+
+</html>
