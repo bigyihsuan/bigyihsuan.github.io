@@ -8,59 +8,75 @@
 <body>
     <h1>Blocking Counter</h1>
     <button type="button" class="btn btn-primary" onclick="addTag()">Add New Tag</button>
+    <!-- <button type="button" class="btn btn-primary" id="fileExport" onclick="exportCSV()">Export CSV</button>
+    <button type="button" class="btn btn-primary" id="fileImport" onclick="importCSV()">Import CSV</button> -->
     <br />
-    <br />
-    <div id="tags"></div>
+    <div id="tags" class="container-fluid"></div>
 
 
-</body>
-<script>
-    function addTag() {
-        var div = document.createElement('div');
-        var html = `
+    <script>
+        function addTag() {
+            var div = document.createElement('div');
+            var html = `
 <div class="row align-middle border" style="padding:0.3em">
-    <div class="col-5">
+    <div class="col-md-8">
         <div class="input-group">
             <input class="form-control" type="text" />
             <span class="input-group-text" id="counter">0</span>
         </div>
     </div>
-    <div class="btn-group col-1" role="group" aria-label="Tag Buttons">
-        <button type="button" class="btn btn-outline-primary" onclick="increment(this)">&#10133;</button>
-        <button type="button" class="btn btn-outline-primary" onclick="decrement(this)">&#10134;</button>
-        <button type="button" class="btn btn-dark" onclick="removeTag(this)">&#10060;</button>
-        <button type="button" class="btn btn-outline-primary" onclick="moveUp(this)">&#11014;</button>
-        <button type="button" class="btn btn-outline-primary" onclick="moveDown(this)">&#11015;</button>
+    <div class="btn-group col-md-4" role="group" aria-label="Tag Buttons">
+        <button type="button" class="btn btn-outline-primary" title="Increment" onclick="increment(this)">&#10133;</button>
+        <button type="button" class="btn btn-outline-primary" title="Decrement" onclick="decrement(this)">&#10134;</button>
+        <button type="button" class="btn btn-secondary" title="Delete" onclick="removeTag(this)">&#10060;</button>
+        <button type="button" class="btn btn-outline-primary" title="Move Up" onclick="moveUp(this)">&#11014;</button>
+        <button type="button" class="btn btn-outline-primary" title="Move Down" onclick="moveDown(this)">&#11015;</button>
     </div>
 </div>`;
-        div.id = document.getElementById("tags").childNodes.length;
-        div.class = "container-fluid";
-        div.innerHTML = html;
-        document.getElementById("tags").appendChild(div);
-    }
+            div.id = $('#tags').children().length;
+            div.class = "container-fluid";
+            div.innerHTML = html;
+            $('#tags').append(div);
+        }
 
-    function removeTag(ele) {
-        ele.parentElement.parentElement.parentElement.remove();
-    }
+        function removeTag(ele) {
+            ele.parentElement.parentElement.parentElement.remove();
+        }
 
-    function increment(ele) {
-        var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
-        counter.innerHTML = Number(counter.innerHTML) + 1;
-    }
+        function increment(ele) {
+            var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
+            counter.innerHTML = Number(counter.innerHTML) + 1;
+        }
 
-    function decrement(ele) {
-        var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
-        counter.innerHTML = Number(counter.innerHTML) > 0 ? Number(counter.innerHTML) - 1 : 0;
-    }
+        function decrement(ele) {
+            var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
+            counter.innerHTML = Number(counter.innerHTML) > 0 ? Number(counter.innerHTML) - 1 : 0;
+        }
 
-    function moveUp(ele) {
+        function moveUp(ele) {
+            var e = $($(ele).parents("*[id]").toArray()[0]);
+            e.prev().insertAfter(e);
+        }
 
-    }
+        function moveDown(ele) {
+            var e = $($(ele).parents("*[id]").toArray()[0]);
+            e.next().insertBefore(e);
+        }
 
-    function moveDown(ele) {
+        // function exportCSV() {
+        //     const fileExport = $("#fileExport");
+        //     fileExport.addEventListener
+        // }
 
-    }
-</script>
+        // function importCSV() {
+
+        // }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
 
 <style>
 
