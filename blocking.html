@@ -29,26 +29,31 @@
         function addTag(tag = '') {
             var div = document.createElement('div');
             var html = `
-<div class="row align-middle border" style="padding:0.3em">
-    <div class="col-md-8">
-        <div class="input-group">
-            <input class="form-control" type="text" id="tagBox" value="${tag}" />
-            <span class="input-group-text" id="counter">0</span>
-        </div>
-    </div>
-    <div class="btn-group col-md-4" role="group" aria-label="Tag Buttons">
-        <button type="button" class="btn btn-outline-primary" title="Increment" onclick="increment(this)">&#10133;</button>
-        <button type="button" class="btn btn-outline-primary" title="Decrement" onclick="decrement(this)">&#10134;</button>
-        <button type="button" class="btn btn-secondary" title="Delete" onclick="removeTag(this)">&#10060;</button>
-        <button type="button" class="btn btn-outline-primary" title="Move Up" onclick="moveUp(this)">&#11014;</button>
-        <button type="button" class="btn btn-outline-primary" title="Move Down" onclick="moveDown(this)">&#11015;</button>
-    </div>
-</div>`;
+            <div class="row align-middle border" style="padding:0.3em">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="tagBox" value="${tag}" />
+                        <span class="input-group-text">
+                            <div id="counter${$('#tags').children().length}">0</div>
+                            /
+                            <div id="maxCounter${$('#tags').children().length}">0</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="btn-group col-md-4" role="group" aria-label="Tag Buttons">
+                    <button type="button" class="btn btn-outline-primary" title="Increment" onclick="increment(this)">&#10133;</button>
+                    <button type="button" class="btn btn-outline-primary" title="Decrement" onclick="decrement(this)">&#10134;</button>
+                    <button type="button" class="btn btn-secondary" title="Delete" onclick="removeTag(this)">&#10060;</button>
+                    <button type="button" class="btn btn-outline-primary" title="Move Up" onclick="moveUp(this)">&#11014;</button>
+                    <button type="button" class="btn btn-outline-primary" title="Move Down" onclick="moveDown(this)">&#11015;</button>
+                </div>
+            </div>`;
+            // <!-- <input class="form-control" type="number" id="counter" min="0" value="0" /> -->
 
-            div.id = $('#tags').children().length;
             div.class = "container-fluid";
             div.innerHTML = html;
             $('#tags').append(div);
+            div.id = "row" + $('#tags').children().length;
             return $('#tags').children().length;
         }
 
@@ -57,17 +62,25 @@
         }
 
         function removeTag(ele) {
-            ele.parentElement.parentElement.parentElement.remove();
+            $(ele).parents("[id^=row]").empty();
         }
 
         function increment(ele) {
-            var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
-            counter.innerHTML = Number(counter.innerHTML) + 1;
+            var counter = $(ele).parent().parent().find("[id^=counter]");
+            var maxCounter = $(ele).parent().parent().find("[id^=max]");
+            counter.html(Number(counter.html()) + 1);
+            if (counter.html() > maxCounter.html()) {
+                maxCounter.html(counter.html());
+            }
         }
 
         function decrement(ele) {
-            var counter = ele.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[3];
-            counter.innerHTML = Number(counter.innerHTML) > 0 ? Number(counter.innerHTML) - 1 : 0;
+            var counter = $(ele).parent().parent().find("[id^=counter]");
+            var maxCounter = $(ele).parent().parent().find("[id^=max]");
+            counter.html(Number(counter.html()) - 1);
+            if (counter.html() < 0) {
+                counter.html(0);
+            }
         }
 
         function moveUp(ele) {
@@ -85,7 +98,6 @@
             tags = text.split(',').map(s => s.trim());
             tags.forEach(t => addTag(t));
         }
-
         // function exportCSV() {
         //     const fileExport = $("#fileExport");
         //     fileExport.addEventListener
