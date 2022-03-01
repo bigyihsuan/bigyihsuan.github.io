@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Teeth</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <h2>To Win:</h2>
+            </div>
+            <div class="col-auto">
+                <div class="form-group">
+                    <input id="to-win-value" class="form-control" type="number" value="5" color="#333333" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <!-- <div class="col">
+                        <h2 id="left-win"></h2>
+                    </div> -->
+                    <div class="col">
+                        <button id="score-increment-left" type="button" class="btn btn-primary" onclick="score('left')">&lt;&lt;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h2 id="score">0</h2>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <button id="score-increment-right" type="button" class="btn btn-primary" onclick="score('right')">&gt;&gt;</button>
+                    </div>
+                    <!-- <div class="col">
+                        <h2 id="right-win"></h2>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Bones</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="container">
+                    <div class="row">
+                        <button id="bones-increment-left" type="button" class="btn btn-primary" onclick="bone('left', 1)">++</button>
+                    </div>
+                    <div class="row">
+                        <h2 id="bones-left" style="text-align:center">0</h2>
+                    </div>
+                    <div class="row">
+                        <button id="bones-decrement-left" type="button" class="btn btn-primary" onclick="bone('left', -1)">--</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container">
+                    <div class="row">
+                        <button id="bones-increment-right" type="button" class="btn btn-primary" onclick="bone('right', 1)">++</button>
+                    </div>
+                    <div class="row">
+                        <h2 id="bones-right" style="text-align:center">0</h2>
+                    </div>
+                    <div class="row">
+                        <button id="bones-decrement-right" type="button" class="btn btn-primary" onclick="bone('right', -1)">--</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function vec3(x, y, z) {
+            return [x, y, z];
+        }
+
+        function sum(left, right) {
+            return vec3(left[0] + right[0], left[1] + right[1], left[2] + right[2]);
+        }
+
+        function difference(left, right) {
+            return vec3(left[0] - right[0], left[1] - right[1], left[2] - right[2]);
+        }
+
+        function scalProd(scal, vec) {
+            return vec3(vec[0] * scal, vec[1] * scal, vec[2] * scal);
+        }
+
+        const CENTER = vec3(0, 0, 0); // black
+        const LEFT = vec3(0xff, 0, 0); // red
+        const RIGHT = vec3(0, 0xff, 0); // """green"""
+
+        function interpolateColor(currentValue, maxValue, lowColor, highColor) {
+            return sum(scalProd((currentValue / maxValue), difference(highColor, lowColor)), lowColor);
+        }
+
+        function toRGB(colorVec) {
+            var s = "#";
+            // console.log(colorVec);
+            for (var c in colorVec) {
+                // console.log(colorVec[c])
+                s += Math.min(colorVec[c], 255).toString(16).padStart(2, '0');
+            }
+            // console.log(s)
+            return s;
+        }
+
+        function toWin() {
+            return document.getElementById("to-win-value").value;
+        }
+
+        function checkWin(score, maxScore) {
+            if (score >= maxScore) {
+                document.getElementById("right-win").innerText = "WIN";
+            } else if (score <= -maxScore) {
+                document.getElementById("left-win").innerText = "WIN";
+            } else {
+                return score;
+            }
+        }
+
+        function score(side) {
+            var scoreElement = document.getElementById("score");
+            var score = Number(scoreElement.innerText);
+            if (side == "left") {
+                score += -1;
+            } else {
+                score += 1;
+            }
+            if (score < 0) {
+                scoreElement.style.color = toRGB(interpolateColor(-score, toWin(), CENTER, LEFT));
+            } else if (score > 0) {
+                scoreElement.style.color = toRGB(interpolateColor(score, toWin(), CENTER, RIGHT));
+            } else {
+                scoreElement.style.color = toRGB(CENTER);
+            }
+            scoreElement.innerText = score;
+            // checkWin(score, toWin());
+        }
+
+        function bone(side, amount) {
+            const BONES = "bones-";
+            var boneElement = document.getElementById(BONES + side)
+            var bones = Number(boneElement.innerText);
+            bones += amount;
+            boneElement.innerText = Math.max(0, bones);
+        }
+    </script>
+
+</body>
