@@ -16,6 +16,9 @@
                     <input id="to-win-value" class="form-control" type="number" value="5" color="#333333" />
                 </div>
             </div>
+            <div class="col">
+                <input type="button" value="Reset" class="btn btn-danger" onclick="reset()">
+            </div>
         </div>
         <div class="row">
             <div class="col">
@@ -115,15 +118,15 @@
             return document.getElementById("to-win-value").value;
         }
 
-        function checkWin(score, maxScore) {
-            if (score >= maxScore) {
-                document.getElementById("right-win").innerText = "WIN";
-            } else if (score <= -maxScore) {
-                document.getElementById("left-win").innerText = "WIN";
-            } else {
-                return score;
-            }
-        }
+        // function checkWin(score, maxScore) {
+        //     if (score >= maxScore) {
+        //         document.getElementById("right-win").innerText = "WIN";
+        //     } else if (score <= -maxScore) {
+        //         document.getElementById("left-win").innerText = "WIN";
+        //     } else {
+        //         return score;
+        //     }
+        // }
 
         function score(side) {
             var scoreElement = document.getElementById("score");
@@ -150,6 +153,14 @@
             var bones = Number(boneElement.innerText);
             bones += amount;
             boneElement.innerText = Math.max(0, bones);
+        }
+
+        function reset() {
+            document.getElementById("score").innerText = 0;
+            document.getElementById("score").style.color = toRGB(CENTER);
+            document.getElementById("bones-left").innerText = 0;
+            document.getElementById("bones-right").innerText = 0;
+            document.getElementById("to-win-value").value = 5;
         }
     </script>
 
