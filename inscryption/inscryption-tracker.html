@@ -2,6 +2,15 @@
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <style>
+        .box {
+            position: relative;
+            /* height: 60%; */
+            /* width: 60%; */
+        }
+    </style>
+
 </head>
 
 <body>
@@ -20,8 +29,8 @@
                 <input type="button" value="Reset" class="btn btn-danger" onclick="reset()">
             </div>
         </div>
-        <div class="row">
-            <div class="col">
+        <div class="row" style="width: 100%">
+            <div class="col-5">
                 <div class="row">
                     <!-- <div class="col">
                         <h2 id="left-win"></h2>
@@ -29,13 +38,15 @@
                     <div class="col">
                         <button id="score-increment-left" type="button" class="btn btn-primary" onclick="score('left')">&lt;&lt;</button>
                     </div>
+                    <div class="box" id="box-left" style="background-color: red;"></div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-auto" style="margin: auto;">
                 <h2 id="score">0</h2>
             </div>
-            <div class="col">
+            <div class="col-5">
                 <div class="row">
+                    <div class="box" id="box-right" style="background-color: green;"></div>
                     <div class="col">
                         <button id="score-increment-right" type="button" class="btn btn-primary" onclick="score('right')">&gt;&gt;</button>
                     </div>
@@ -79,6 +90,8 @@
     </div>
 
     <script>
+        window.onload = reset;
+
         function vec3(x, y, z) {
             return [x, y, z];
         }
@@ -144,6 +157,16 @@
                 scoreElement.style.color = toRGB(CENTER);
             }
             scoreElement.innerText = score;
+
+            var leftBox = document.getElementById("box-left");
+            var leftButton = document.getElementById("score-increment-left");
+            var rightBox = document.getElementById("box-right");
+            var rightButton = document.getElementById("score-increment-right");
+
+            console.log(score);
+            console.log(score / toWin() * 100);
+            leftBox.style.width = `${String(-score / toWin() * 75)}%`;
+            rightBox.style.width = `${String(score / toWin() * 75)}%`;
             // checkWin(score, toWin());
         }
 
@@ -161,6 +184,8 @@
             document.getElementById("bones-left").innerText = 0;
             document.getElementById("bones-right").innerText = 0;
             document.getElementById("to-win-value").value = 5;
+            document.getElementById("box-left").style.width = "0%";
+            document.getElementById("box-right").style.width = "0%";
         }
     </script>
 
